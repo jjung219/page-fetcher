@@ -6,13 +6,12 @@ const url = args[0];
 
 
 request(url, (error, response, body) => {
-  //how to get the filesize - https://stackoverflow.com/questions/42363140/how-to-find-the-size-of-the-file-in-node-js
   let fileSize = fs.statSync(filename);
   let fileSizeBytes = fileSize['size'];
 
-  // console.log('Error: ', response.statusCode, response.statusMessage)
-  if (error === null && response.statusCode < 400) {
-    fs.stat(filename, function (err, stat) {
+
+  if (error === null && response.statusCode === 200) {
+    fs.stat(filename, (err, stat) => {
       if (err == null) {
         fs.writeFile(filename, body, (err) => {
           console.log(`Downloaded and saved ${fileSizeBytes} bytes to ${filename}`);
@@ -30,5 +29,6 @@ request(url, (error, response, body) => {
 
 
 
+//how to get the filesize - https://stackoverflow.com/questions/42363140/how-to-find-the-size-of-the-file-in-node-js
 // how to validate filepath - https://stackoverflow.com/questions/17699599/node-js-check-if-file-exists
 // how to write file - https://nodejs.org/api/fs.html#fs_fs_writefile_file_data_options_callback$
